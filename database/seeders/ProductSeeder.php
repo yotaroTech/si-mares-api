@@ -22,6 +22,7 @@ class ProductSeeder extends Seeder
         $products = [
             [
                 'name' => 'אמלפי',
+                'slug' => 'amalfi',
                 'subtitle' => 'בגד ים שלם מעצב',
                 'category_id' => $onePiece->id,
                 'collection_id' => $summer->id,
@@ -43,6 +44,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'קאפרי',
+                'slug' => 'capri',
                 'subtitle' => 'סט ביקיני קלאסי',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -63,6 +65,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'סנטוריני',
+                'slug' => 'santorini',
                 'subtitle' => 'ביקיני משולש',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -83,6 +86,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'מיקונוס',
+                'slug' => 'mykonos',
                 'subtitle' => 'סט ביקיני בנדו',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -104,6 +108,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'ריביירה',
+                'slug' => 'riviera',
                 'subtitle' => 'ביקיני גזרה גבוהה',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -124,6 +129,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'פורטופינו',
+                'slug' => 'portofino',
                 'subtitle' => 'ביקיני חוטיני',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -144,6 +150,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => "קוט ד'אזור",
+                'slug' => 'cote-dazur',
                 'subtitle' => 'בגד ים שלם יוקרתי',
                 'category_id' => $onePiece->id,
                 'collection_id' => $limited->id,
@@ -164,6 +171,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'סרדיניה',
+                'slug' => 'sardinia',
                 'subtitle' => 'סט ביקיני הולטר',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -184,6 +192,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'איביזה',
+                'slug' => 'ibiza',
                 'subtitle' => 'בגד ים שלם עם חיתוכים',
                 'category_id' => $onePiece->id,
                 'collection_id' => $limited->id,
@@ -204,6 +213,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'קורסיקה',
+                'slug' => 'corsica',
                 'subtitle' => 'סט ביקיני מעטפת',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -226,6 +236,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'מלטה',
+                'slug' => 'malta',
                 'subtitle' => 'בגד ים שלם עם קיפולים',
                 'category_id' => $onePiece->id,
                 'collection_id' => $summer->id,
@@ -246,6 +257,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'פוזיטנו',
+                'slug' => 'positano',
                 'subtitle' => 'סט ביקיני מחשוף עמוק',
                 'category_id' => $bikini->id,
                 'collection_id' => $summer->id,
@@ -284,8 +296,8 @@ class ProductSeeder extends Seeder
                 unset($data['sale_price']);
             }
 
+            $slug = $data['slug'];
             $product = Product::create(array_merge($data, [
-                'slug' => Str::slug($data['name']),
                 'sale_price' => $salePrice,
                 'sort_order' => $index + 1,
             ]));
@@ -295,7 +307,7 @@ class ProductSeeder extends Seeder
                 foreach ($sizes as $size) {
                     ProductVariant::create([
                         'product_id' => $product->id,
-                        'sku' => 'SM-' . strtoupper(Str::slug($data['name'])) . '-' . strtoupper(substr(str_replace('#', '', $color['hex']), 0, 4)) . '-' . $size,
+                        'sku' => 'SM-' . strtoupper($slug) . '-' . strtoupper(substr(str_replace('#', '', $color['hex']), 0, 4)) . '-' . $size,
                         'color_name' => $color['name'],
                         'color_hex' => $color['hex'],
                         'size' => $size,
