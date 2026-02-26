@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'tranzila' => [
+        'terminal_name' => env('TRANZILA_TERMINAL_NAME'),
+        'api_key' => env('TRANZILA_API_KEY'),
+        'api_url' => env('TRANZILA_API_URL', 'https://secure5.tranzila.com/cgi-bin/tranzila31.cgi'),
+        'success_url' => env('TRANZILA_SUCCESS_URL'),
+        'fail_url' => env('TRANZILA_FAIL_URL'),
+    ],
+
 ];
