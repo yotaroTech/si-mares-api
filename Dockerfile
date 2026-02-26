@@ -45,7 +45,8 @@ COPY . .
 
 # Generate autoloader and run post-install scripts
 RUN composer dump-autoload --optimize \
-    && php artisan package:discover --ansi || true
+    && php artisan package:discover --ansi || true \
+    && php artisan filament:assets || true
 
 # Create necessary directories
 RUN mkdir -p \
