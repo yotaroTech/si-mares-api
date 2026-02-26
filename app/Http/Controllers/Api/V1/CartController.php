@@ -47,7 +47,7 @@ class CartController extends Controller
         } else {
             CartItem::create([
                 'user_id' => $request->user()?->id,
-                'session_id' => $request->user() ? null : $request->session()->getId(),
+                'session_id' => $request->user() ? null : $request->header('X-Session-ID'),
                 'product_variant_id' => $validated['product_variant_id'],
                 'quantity' => $validated['quantity'] ?? 1,
             ]);
@@ -86,7 +86,8 @@ class CartController extends Controller
 
     public function merge(Request $request)
     {
-        $sessionId = $request->session()->getId();
+        $request->validate(['session_id' => 'required|string']);
+        $sessionId = $request->input('session_id');
         $userId = $request->user()->id;
 
         $guestItems = CartItem::where('session_id', $sessionId)->get();
@@ -112,7 +113,11 @@ class CartController extends Controller
         if ($request->user()) {
             return CartItem::where('user_id', $request->user()->id);
         }
-        return CartItem::where('session_id', $request->session()->getId());
+        $sessionId = $request->header('X-Session-ID');
+        if (!$sessionId) {
+            abort(422, 'X-Session-ID header required for guest cart');
+        }
+        return CartItem::where('session_id', $sessionId);
     }
 
     private function formatCartItem(CartItem $item): array
